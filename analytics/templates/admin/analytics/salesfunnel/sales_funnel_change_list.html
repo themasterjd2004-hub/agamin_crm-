@@ -1,0 +1,65 @@
+{% extends "admin/change_list.html" %}
+{% load i18n %}
+{% block content_title %}
+    <h1>{% translate 'Sales funnel for last 365 days' %}</h1>
+
+{% endblock %}
+{% block result_list %}
+
+    <style>
+    .bar-chart {
+      /*display: flex;*/
+      justify-content: space-around;
+      height: 100%;
+      padding-top: 60px;
+      overflow: hidden;
+    }
+    .bar-chart .bar {
+        flex: 100%;
+        align-self: flex-end;
+        position: relative;
+        background-color: var(--primary);
+        height: 60px;
+        margin: 2px auto;
+    }
+    .bar-chart .bar:hover {
+        background-color: var(--secondary);
+        color: var(--accent);
+    }
+    .bar-chart .bar .bar-tooltip {
+        position: relative;
+        z-index: 999;
+    }
+    .bar-chart .bar .bar-tooltip {
+        position: absolute;
+        /*top: -60px;*/
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        font-weight: bold;
+        opacity: 1;
+		white-space: nowrap;
+    }
+    .bar-chart .bar:hover .bar-tooltip {
+        opacity: 1;
+    }
+    </style>
+     
+<div class="results">
+    <h2>{% translate 'Number of deals closed/lost at each stage.' %}</h2>
+    <div class="results">
+        <div class="bar-chart">
+        {% for x in sales_funnel %}
+            <div class="bar" style="width:{{x.pct}}%">
+                <div class="bar-tooltip">
+                    {{x.stage__name}}: {{ x.total}}<br>
+					{% if not forloop.last %}{{ x.perc }}{% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>    
+    
+{% endblock %}
+{% block pagination %}{% endblock %}

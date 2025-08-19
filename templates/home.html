@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ site_title }} Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
+        h1 { color: #333; }
+        .app-container { margin-bottom: 30px; }
+        .model-list { list-style: none; padding: 0; }
+        .model-list li { margin: 5px 0; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>{{ site_title }} Dashboard</h1>
+    {% for app in apps %}
+        <div class="app-container">
+            <h2>{{ app.name|capfirst }}</h2>
+            <ul class="model-list">
+                {% for model in app.models %}
+                    <li><a href="/{{ admin_prefix }}{{ app.prefix }}/{{ model|lower }}/">{{ model }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+</body>
+</html>
